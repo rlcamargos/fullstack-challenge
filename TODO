@@ -1,0 +1,13 @@
+Backend:
+    ☐ Bootstrap backend
+    ☐ Add models
+    ☐ Add serializers and endpoints
+    ☐ Add mock data generator
+    ☐ Add models unit tests
+Frontend:
+    ☐ Bootstrap frontend
+    ☐ Add home page to list orders
+    ☐ Add modal to view order
+    ☐ Add modal to create order
+Project:
+    ☐ Add project README including instructions
