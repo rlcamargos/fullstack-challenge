@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import CreateOrder from "./components/CreateOrder";
 import ViewOrder from "./components/ViewOrder";
 import axios from "axios";
 
@@ -8,6 +9,7 @@ class App extends Component {
     this.state = {
       orderList: [],
       selectedOrder: {},
+      createModalOpen: false,
       viewModalOpen: false,
     };
   }
@@ -23,6 +25,10 @@ class App extends Component {
       .catch((err) => console.log(err));
   };
 
+  toggleCreateModal = () => {
+    this.setState({ createModalOpen: !this.state.createModalOpen });
+  };
+
   toggleViewModal = () => {
     this.setState({ viewModalOpen: !this.state.viewModalOpen });
   };
@@ -32,6 +38,11 @@ class App extends Component {
       selectedOrder: order,
       viewModalOpen: !this.state.viewModalOpen,
     });
+  };
+
+  handleSubmit = (order) => {
+    this.toggleCreateModal();
+    axios.post("/api/orders/", order).then((res) => this.refreshList());
   };
 
   renderOrders = () => {
@@ -59,7 +70,14 @@ class App extends Component {
         <div className="row">
           <div className="col-md-10 col-sm-10 mx-auto p-0">
             <div>
-              <div className="mb-4 float-right"></div>
+              <div className="mb-4 float-right">
+                <button
+                  className="btn btn-primary"
+                  onClick={this.toggleCreateModal}
+                >
+                  Open new order
+                </button>
+              </div>
               <table className="table table-striped text-center border border-5">
                 <thead>
                   <tr>
@@ -76,6 +94,12 @@ class App extends Component {
             </div>
           </div>
         </div>
+        {this.state.createModalOpen && (
+          <CreateOrder
+            toggle={this.toggleCreateModal}
+            onSave={this.handleSubmit}
+          />
+        )}
         {this.state.viewModalOpen && (
           <ViewOrder
             selectedOrder={this.state.selectedOrder}
