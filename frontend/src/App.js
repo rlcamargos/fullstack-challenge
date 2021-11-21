@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ViewOrder from "./components/ViewOrder";
 import axios from "axios";
 
 class App extends Component {
@@ -6,6 +7,8 @@ class App extends Component {
     super(props);
     this.state = {
       orderList: [],
+      selectedOrder: {},
+      viewModalOpen: false,
     };
   }
 
@@ -20,9 +23,23 @@ class App extends Component {
       .catch((err) => console.log(err));
   };
 
+  toggleViewModal = () => {
+    this.setState({ viewModalOpen: !this.state.viewModalOpen });
+  };
+
+  viewOrder = (order) => {
+    this.setState({
+      selectedOrder: order,
+      viewModalOpen: !this.state.viewModalOpen,
+    });
+  };
+
   renderOrders = () => {
     return this.state.orderList.map((order) => (
-      <tr key={order.id}>
+      <tr
+        key={order.id}
+        onClick={() => this.viewOrder(order)}
+      >
         <td>{order.id}</td>
         <td>{order.category.name}</td>
         <td>
@@ -59,6 +76,12 @@ class App extends Component {
             </div>
           </div>
         </div>
+        {this.state.viewModalOpen && (
+          <ViewOrder
+            selectedOrder={this.state.selectedOrder}
+            toggle={this.toggleViewModal}
+          />
+        )}
       </main>
     );
   }
