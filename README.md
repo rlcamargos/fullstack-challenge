@@ -2,47 +2,122 @@
 
 ## Description
 
-Welcome to Refera's Fullstack code challenge! The goal of this challenge is to create a web application to manage maintanence orders from Refera, following the **Acceptance criteria**. The frontend of application has only one page and the backend contains a simple REST API service and has a connection with a database. By the end of the challenge, we will be able to create new orders and list them through the web application that comunicates with our backend service to read and store the data in a database.
+This project was built for Refera's Fullstack Code Challenge. It allows the user to create, list, and view home repair orders.
 
-We use React and Django in our real application, feel comfortable to chose the appropriate technology you are familiar with. Elaborate briefly the architectural decisions, design patterns and frameworks you used on your solution.
+![webbsite-navigation](./navigation.gif)
 
+## Running the server: development mode
 
-## Resources
+### Prerequisites
 
-![image](https://user-images.githubusercontent.com/10841710/141149769-d2bef978-7073-4ac7-b0af-6c0c8c7b6fe8.png)
+- Python 3
+- nodejs
 
+### Running the services
 
-## Acceptance criteria
+(Optional) Create a new Python environment
 
-- Provide clear instructions on how to run the application in development mode
-- Provide clear instructions on how the application would run in a production environment
-- Describe how you would implement an authentication layer for the web application (don't need to implement)
-- RESTful API allowing CRUD and list operations on the orders
-  - Endpoint to create/retrieve/update/delete order
-  - Endpoint to list order
-- RESTful API allowing CRUD operations on the categories
-  - Endpoint to create/retrieve/update/delete category
-  - Endpoint to list categories
-- Database to store data from the following resources
-  - Order
-  - Category
-- Describe how you would structure the database to account for 
-  - Real estate agency registration data
-  - Company registration data
-  - Contact registration data
-  - Describe what needs to be changed on the API you implemeted
-- One web page, following the low fidelity prototype presented on the **Resources**
-  - Table with orders data, allowing the user to order the results by each column
-  - Button to open modal to create new order
-  - Allow row click to open modal to visualize order details
-- Modal to input data to create new order
-  - Form with appropriate inputs to handle each type of data
-  - Allow selection of registered cateories from the database
-  - Save button to hit backend service and store the data
-- Modal to read only the order details
+```
+python3 -m venv fullstack-challenge-env
+source fullstack-challenge-env/bin/activate
+```
 
-## Additional Information
+To run the backend service:
 
-- The usage of git will be taken into consideration on the evaluation
-- Fork this repository to your github account to submit your code
-- All the written information requested on **Acceptance criteria** should be added on a README.md file inside the repository
+- Enter the backend directory
+- Install the Python dependencies
+- Create and migrate the DB tables
+- Generate some mock data
+- Run the Django development server
+```
+cd backend/
+pip install -r requirements.txt
+./manage.py migrate
+./manage.py shell < create_mock_data.py
+./manage.py runserver
+```
+In a different terminal session, run the frontend service with:
+
+```
+cd frontend/
+npm install
+npm start
+```
+
+## To be done
+### Running the server: Production environment
+
+The Django&React combination is very flexible and can be production-deployed in many different services, the most popular of them is [Heroku](https://www.heroku.com/). The main steps to get the project production-ready are removing debug flags and secrets and adding an uWSGI configuration.
+
+### Authentication
+
+Django provides an [user authentication mechanism](https://docs.djangoproject.com/en/3.2/topics/auth/) easy to implement, which carries most of the core functionalities needed for authentication out of the box.
+
+### Further Database structure
+
+#### Real estate agency registration data
+
+Models changes:
+
+- New table to store real estate agency data
+- Update Order model to include a FK to RealEstateAgency
+
+```
++ RealEstateAgency:
++ name: string
++ phone: string
++ address: string
++ national_registry: string
+
+Order:
+- agency: string
++ agency: FK to RealEstateAgency
+```
+
+Other updates: Update Order serializer and endpoint to traverse RealEstateAgency.
+#### Company registration data
+
+Models changes:
+
+- New table to store companies data
+- Update Order model to include a FK to Company
+
+```
++ Company:
++ name: string
++ phone: string
++ address: string
++ national_registry: string
+
+Order:
+- company: string
++ company: FK to Company
+```
+
+Other updates: Update Order serializer and endpoint to traverse Company.
+
+#### Contact registration data
+
+Models changes:
+
+- New table to store contacts data
+- Update Order model to include a FK to Contact
+
+```
+Contact:
+first_name: string
+last_name: string
+email: string
+username: string
+password: string
+phone: string
+address: string
+identity_number: string
+
+Order:
+- contact_name: string
+- contact_phone: string
++ contact: FK to Contact
+```
+
+Other updates: Update Order serializer and endpoint to traverse Contact.
