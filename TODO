@@ -1,13 +1,16 @@
 Backend:
-    ☐ Bootstrap backend
-    ☐ Add models
-    ☐ Add serializers and endpoints
-    ☐ Add mock data generator
-    ☐ Add models unit tests
+    ✔ Bootstrap backend @done(21-11-21 16:43)
+    ✔ Add models @done(21-11-21 16:43)
+    ✔ Add serializers and endpoints @done(21-11-21 16:43)
+    ✔ Add mock data generator @done(21-11-21 16:43)
+    ✔ Add models unit tests @done(21-11-21 16:43)
+    ☐ Poetry dependencies management
+    ☐ Configure black Python linter
 Frontend:
-    ☐ Bootstrap frontend
-    ☐ Add home page to list orders
-    ☐ Add modal to view order
-    ☐ Add modal to create order
+    ✔ Bootstrap frontend @done(21-11-21 16:43)
+    ✔ Add home page to list orders @done(21-11-21 16:43)
+    ✔ Add modal to view order @done(21-11-21 16:43)
+    ✔ Add modal to create order @done(21-11-21 16:43)
+    ☐ Configure prettier JS linter
 Project:
-    ☐ Add project README including instructions
+    ✔ Add project README including instructions @done(21-11-21 16:43)
